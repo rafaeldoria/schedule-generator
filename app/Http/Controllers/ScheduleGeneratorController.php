@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use AllowDynamicProperties;
 use App\Http\Requests\StoreScheduleRequest;
 use App\Services\ScheduleGeneratorService;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
 
 class ScheduleGeneratorController

@@ -25,6 +25,7 @@ use Illuminate\Http\Request;
 {
     public function __construct(Request $request)
     {
+        $this->breaks = false;
         $this->input = $request->all();
         $this->prepareDates();
     }
