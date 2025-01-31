@@ -3,5 +3,5 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return 'SCHEDULE GENERATOR';
+    return redirect('/api/documentation');
 });

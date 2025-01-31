@@ -15,7 +15,7 @@ class StoreScheduleRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'recurrence' => 'required',
+            'recurrence' => 'required|integer',
             'startTime' => ['required', self::REGEX_TIME],
             'endTime' => ['required', self::REGEX_TIME],
             'duration' => ['required', 'integer', 'min:1'],
