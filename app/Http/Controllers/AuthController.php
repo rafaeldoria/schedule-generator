@@ -24,6 +24,7 @@ class AuthController extends Controller
         ]);
 
         return response()->json([
+            'success' => true,
             'message' => 'User Created.',
         ]);
     }
@@ -34,7 +35,8 @@ class AuthController extends Controller
         if (! $user || ! Hash::check($request->password, $user->password))
         {
             return response()->json([
-                'message' => ['Username or password incorrect'],
+                'status' => 'error',
+                'message' => ['Invalid credentials'],
             ]);
         }
 
@@ -44,6 +46,7 @@ class AuthController extends Controller
             'status' => 'success',
             'message' => 'User logged in successfully',
             'name' => $user->name,
+            'email' => $user->email,
             'token' => $user->createToken('auth_token')->plainTextToken,
         ]);
     }
