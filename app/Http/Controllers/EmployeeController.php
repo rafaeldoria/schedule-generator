@@ -28,7 +28,7 @@ class EmployeeController extends Controller
         return response()->json(['data' => $this->service->createEmployee($request->all())]);
     }
 
-    public function update(int $id, Request $request): JsonResponse
+    public function update(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => $this->service->updateEmployee($request->all(), $id)]);
     }

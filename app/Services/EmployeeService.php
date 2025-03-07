@@ -27,14 +27,9 @@ class EmployeeService
             return [];
         }
 
-        $employeeDto = new EmployeeDto(
-            $employee['full_name'],
-            $employee['email'],
-            $employee['function'],
-            $employee['available']
-        );
+        $employeeDto = EmployeeDto::fromArray($employee->toArray());
 
-        return $employeeDto->toArray();
+        return $employeeDto->toResponse($employee['id']);
     }
 
     public function createEmployee(array $data): Employee
