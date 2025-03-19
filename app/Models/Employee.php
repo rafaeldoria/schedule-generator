@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  * @property string|null $function
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property EmployeeSettings $settings
  */
 class Employee extends Model
 {
@@ -24,6 +25,6 @@ class Employee extends Model
 
     public function settings(): HasOne
     {
-        return $this->hasOne(Settings::class);
+        return $this->hasOne(EmployeeSettings::class);
     }
 }

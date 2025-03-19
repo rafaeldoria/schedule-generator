@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\SettingsService;
+use App\Services\EmployeeSettingsService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class SettingsController extends Controller
 {
-    public function __construct(protected SettingsService $service)
+    public function __construct(protected EmployeeSettingsService $service)
     {
     }
 

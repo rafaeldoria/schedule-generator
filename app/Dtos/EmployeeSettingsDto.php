@@ -2,13 +2,12 @@
 
 namespace App\Dtos;
 
-class SettingsDto
+class EmployeeSettingsDto
 {
     public function __construct(
         public string $duration,
         public string $startTime,
         public string $endTime,
-        public ?string $intervals,
         public ?bool $saturdayOff,
         public ?string $closeDays,
         public string $employeeId,
@@ -21,7 +20,6 @@ class SettingsDto
             'duration' => $this->duration,
             'start_time' => $this->startTime,
             'end_time' => $this->endTime,
-            'intervals' => $this->intervals,
             'saturday_off' => $this->saturdayOff,
             'close_days' => $this->closeDays,
             'employee_id' => $this->employeeId,
@@ -34,7 +32,6 @@ class SettingsDto
             'duration' => $this->duration,
             'start_time' => $this->startTime,
             'end_time' => $this->endTime,
-            'intervals' => $this->intervals,
             'saturday_off' => $this->saturdayOff,
             'close_days' => $this->closeDays,
             'employee_id' => $this->employeeId,
@@ -48,7 +45,6 @@ class SettingsDto
             duration: $data['duration'],
             startTime: $data['start_time'],
             endTime: $data['end_time'],
-            intervals: $data['intervals'] ?? null,
             saturdayOff: $data['saturday_off'] ?? null,
             closeDays: $data['close_days'] ?? null,
             employeeId: $data['employee_id'],

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Dtos\EmployeeDto;
+use App\Dtos\EmployeeSettingsDto;
 use App\Models\Employee;
 use App\Repositories\EmployeeRepository;
 
@@ -28,8 +29,19 @@ class EmployeeService
         }
 
         $employeeDto = EmployeeDto::fromArray($employee->toArray());
+        $employeeSetting = $employee->settings;
 
-        return $employeeDto->toResponse($employee['id']);
+        $settings = [];
+
+        if (!empty($employeeSetting)) {
+            $employeeSettingsDto = EmployeeSettingsDto::fromArray($employeeSetting->toArray());
+            $settings = $employeeSettingsDto->toResponse($employeeSetting['id']) ?? [];
+        }
+
+        return [
+            'employee' => $employeeDto->toResponse($employee['id']),
+            'settings' => $settings,
+        ];
     }
 
     public function createEmployee(array $data): Employee
