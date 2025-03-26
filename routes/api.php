@@ -5,6 +5,7 @@ use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ScheduleGeneratorController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\SettingsIntervalController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -19,6 +20,7 @@ Route::group([
         Route::get('/settings/{id}', [SettingsController::class, 'getById']);
         Route::get('/settings/employee/{employee_id}', [SettingsController::class, 'getByEmployeeId']);
         Route::post('/settings', [SettingsController::class, 'create']);
+        Route::delete('/interval/{interval}', [SettingsIntervalController::class, 'delete']);
         Route::post('/logout', [AuthController::class, 'logout']);
     }
 );

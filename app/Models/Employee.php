@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -16,6 +17,8 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
  */
 class Employee extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'full_name',
         'email',

@@ -21,7 +21,7 @@ class EmployeeSettingsDto
             'start_time' => $this->startTime,
             'end_time' => $this->endTime,
             'saturday_off' => $this->saturdayOff,
-            'close_days' => $this->closeDays,
+            'close_days' => implode(',', explode(',', $this->closeDays)),
             'employee_id' => $this->employeeId,
         ];
     }

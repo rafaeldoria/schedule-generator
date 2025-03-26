@@ -9,7 +9,7 @@ class SettingsIntervalsDto
     public function __construct(
         public string $startTime,
         public string $endTime,
-        public string $settingsId,
+        public string $employeeSettingsId,
     ) {
     }
 
@@ -18,7 +18,7 @@ class SettingsIntervalsDto
         return [
             'start_time' => $this->startTime,
             'end_time' => $this->endTime,
-            'settings_id' => $this->settingsId,
+            'employee_settings_id' => $this->employeeSettingsId,
         ];
     }
 
@@ -27,7 +27,7 @@ class SettingsIntervalsDto
         return [
             'start_time' => $this->startTime,
             'end_time' => $this->endTime,
-            'settings_id' => $this->settingsId,
+            'employee_settings_id' => $this->employeeSettingsId,
             'id' => $id,
         ];
     }
@@ -37,7 +37,7 @@ class SettingsIntervalsDto
         return new self(
             startTime: $data['start_time'],
             endTime: $data['end_time'],
-            settingsId: $data['settings_id'],
+            employeeSettingsId: $data['employee_settings_id'],
         );
     }
 }

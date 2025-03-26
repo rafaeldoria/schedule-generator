@@ -15,9 +15,10 @@ return new class extends Migration
             $table->id();
             $table->string('start_time');
             $table->string('end_time');
-            $table->unsignedBigInteger('settings_id')->unique();
-            $table->foreign('settings_id')->references('id')->on('employee_settings');
+            $table->unsignedBigInteger('employee_settings_id');
+            $table->foreign('employee_settings_id')->references('id')->on('employee_settings');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

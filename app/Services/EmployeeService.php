@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Dtos\EmployeeDto;
 use App\Dtos\EmployeeSettingsDto;
+use App\Helpers\IntervalHelper;
 use App\Models\Employee;
 use App\Repositories\EmployeeRepository;
 
@@ -38,9 +39,12 @@ class EmployeeService
             $settings = $employeeSettingsDto->toResponse($employeeSetting['id']) ?? [];
         }
 
+        $intervals = IntervalHelper::getIntervals($employeeSetting);
+
         return [
             'employee' => $employeeDto->toResponse($employee['id']),
             'settings' => $settings,
+            'intervals' => $intervals,
         ];
     }
 

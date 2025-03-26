@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
@@ -17,11 +18,13 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property int $employee_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property SettingsInterval $intervalsT
+ * @property SettingsInterval $intervals
  * @method static where(string $string, $employee_id)
  */
 class EmployeeSettings extends Model
 {
+    use SoftDeletes;
+
     protected $fillable = [
         'duration',
         'start_time',
@@ -36,7 +39,7 @@ class EmployeeSettings extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function intervalsT(): HasMany
+    public function intervals(): HasMany
     {
         return $this->hasMany(SettingsInterval::class);
     }

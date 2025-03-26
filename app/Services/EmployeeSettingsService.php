@@ -57,10 +57,14 @@ class EmployeeSettingsService
         $settingsDto = EmployeeSettingsDto::fromArray($data);
         $settings = $this->repository->create($settingsDto->toArray());
 
+
         if (!empty($data['intervals'])) {
+//            $intervals =
             foreach ($data['intervals'] as $interval) {
+                $interval['employee_settings_id'] = $settings->id;
+
                 $this->intervals[] = SettingsInterval::query()->updateOrCreate([
-                    'settings_id' => $settings->id,
+                    'id' => $interval['id'] ?? null,
                 ], $interval);
             }
         }
@@ -73,7 +77,7 @@ class EmployeeSettingsService
 
     public function setIntervals(EmployeeSettings $settings): void
     {
-        $intervalsSettings = $settings->intervalsT;
+        $intervalsSettings = $settings->intervals;
 
         if (!empty($intervalsSettings)) {
             foreach ($intervalsSettings as $intervalSetting) {

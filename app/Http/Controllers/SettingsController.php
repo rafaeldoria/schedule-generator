@@ -26,9 +26,4 @@ class SettingsController extends Controller
     {
         return response()->json(['data' => $this->service->createSettings($request->all())]);
     }
-
-    public function update(Request $request, int $id): JsonResponse
-    {
-        return response()->json(['data' => $this->service->updateSettings($request->all(), $id)]);
-    }
 }

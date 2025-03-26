@@ -17,10 +17,11 @@ return new class extends Migration
             $table->string('start_time');
             $table->string('end_time');
             $table->boolean('saturday_off')->nullable();
-            $table->json('close_days')->nullable();
+            $table->string('close_days')->nullable();
             $table->unsignedBigInteger('employee_id')->unique();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
