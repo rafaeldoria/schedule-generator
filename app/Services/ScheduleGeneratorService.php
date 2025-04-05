@@ -60,8 +60,8 @@ use Illuminate\Http\Request;
 
             if ($this->breaks && $this->totalBreaks > 0) {
                 foreach ($this->input['break'] as $break) {
-                    $startBrake = Carbon::createFromTimeString($break['startBrake']);
-                    $endBrake = Carbon::createFromTimeString($break['endBrake']);
+                    $startBrake = Carbon::createFromTimeString($break['startTime']);
+                    $endBrake = Carbon::createFromTimeString($break['endTime']);
 
                     if ($this->startTime->gte($startBrake) && $this->startTime->lt($endBrake)) {
                         $minutesDiff = $startBrake->diffInMinutes($endBrake);

@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreScheduleRequest extends FormRequest
 {
-    private const REGEX_TIME = 'regex:/^([01]?[0-9]|2[0-3]):([0-5]?[0-9]):([0-5]?[0-9])$/';
+    private const REGEX_TIME = 'regex:/^([01]?[0-9]|2[0-3]):([0-5]?[0-9])$/';
     public function authorize(): bool
     {
         return true;
@@ -21,8 +21,8 @@ class StoreScheduleRequest extends FormRequest
             'duration' => ['required', 'integer', 'min:1'],
             'saturdayOff' => ['nullable', 'boolean'],
             'break' => ['nullable', 'array', 'min:1'],
-            'break.*.startBrake' => ['required_with:break.*.endBrake', self::REGEX_TIME],
-            'break.*.endBrake' => ['required_with:break.*.startBrake', self::REGEX_TIME],
+            'break.*.startTime' => ['required_with:break.*.endTime', self::REGEX_TIME],
+            'break.*.endTime' => ['required_with:break.*.startTime', self::REGEX_TIME],
         ];
     }
 }

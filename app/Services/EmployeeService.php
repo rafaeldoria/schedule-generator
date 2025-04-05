@@ -33,13 +33,16 @@ class EmployeeService
         $employeeSetting = $employee->settings;
 
         $settings = [];
+        $intervals = [];
 
         if (!empty($employeeSetting)) {
             $employeeSettingsDto = EmployeeSettingsDto::fromArray($employeeSetting->toArray());
             $settings = $employeeSettingsDto->toResponse($employeeSetting['id']) ?? [];
+
+            $intervals = IntervalHelper::getIntervals($employeeSetting);
         }
 
-        $intervals = IntervalHelper::getIntervals($employeeSetting);
+
 
         return [
             'employee' => $employeeDto->toResponse($employee['id']),
