@@ -4,9 +4,12 @@ namespace App\Services;
 
 use App\Dtos\EmployeeDto;
 use App\Dtos\EmployeeSettingsDto;
-use App\Helpers\IntervalHelper;
+use App\Events\ScheduleGenerateEvent;
+use App\Events\ScheduleStoreEvent;
+use App\Helpers\BreakingHelper;
 use App\Models\Employee;
 use App\Repositories\EmployeeRepository;
+use Illuminate\Support\Facades\Event;
 
 class EmployeeService
 {
@@ -33,13 +36,13 @@ class EmployeeService
         $employeeSetting = $employee->settings;
 
         $settings = [];
-        $intervals = [];
+        $breakings = [];
 
         if (!empty($employeeSetting)) {
             $employeeSettingsDto = EmployeeSettingsDto::fromArray($employeeSetting->toArray());
             $settings = $employeeSettingsDto->toResponse($employeeSetting['id']) ?? [];
 
-            $intervals = IntervalHelper::getIntervals($employeeSetting);
+            $breakings = BreakingHelper::getBreakings($employeeSetting);
         }
 
 
@@ -47,7 +50,7 @@ class EmployeeService
         return [
             'employee' => $employeeDto->toResponse($employee['id']),
             'settings' => $settings,
-            'intervals' => $intervals,
+            'breakings' => $breakings,
         ];
     }
 
@@ -73,5 +76,31 @@ class EmployeeService
         );
 
         return $this->repository->update($employeeDto->toArray(), $id);
+    }
+
+    public function generateSchedule(array $data): array
+    {
+        $employee = $this->repository->findById($data['employee_id']);
+        $settings = $employee->settings;
+
+        if (empty($settings)) {
+            return [];
+        }
+
+        $input = $settings->toArray();
+
+        $input['breaks'] = BreakingHelper::getBreakings($settings);
+
+        $input['recurrence'] = $data['recurrence'];
+
+        $results = Event::dispatch(new ScheduleGenerateEvent($input));
+
+        $times = $results[0] ?? [];
+
+        if (empty($times)) {
+            return [];
+        }
+
+        return Event::dispatch(new ScheduleStoreEvent($times, $employee->id));
     }
 }

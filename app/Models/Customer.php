@@ -5,28 +5,31 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
- * @property string $start_time
- * @property string $end_time
- * @property int $mployee_settings_id
+ * @property string $full_name
+ * @property string|null $cellphone
+ * @property string|null $email
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
+ * @property Schedule $schedules
  */
-class SettingsInterval extends Model
+
+class Customer extends Model
 {
     use SoftDeletes;
 
     protected $fillable = [
-        'start_time',
-        'end_time',
-        'employee_settings_id',
+        'full_name',
+        'email',
+        'cellphone',
     ];
 
-    public function settings(): BelongsTo
+    public function schedules(): HasMany
     {
-        return $this->belongsTo(EmployeeSettings::class);
+        return $this->hasMany(Schedule::class);
     }
 }

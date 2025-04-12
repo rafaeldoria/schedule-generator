@@ -11,14 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('employee_settings', function (Blueprint $table) {
+        Schema::create('schedules', function (Blueprint $table) {
             $table->id();
-            $table->string('duration');
-            $table->string('start_time');
-            $table->string('end_time');
-            $table->boolean('saturday_off')->nullable();
-            $table->string('close_days')->nullable();
-            $table->string('interval')->default(0)->comment('in minutes');
+            $table->json('generated_schedule');
+            $table->tinyInteger('status')->default(0)->comment('0 => OPEN, 1 => CLOSED');
             $table->unsignedBigInteger('employee_id')->unique();
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
@@ -31,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('employee_settings');
+        Schema::dropIfExists('schedules');
     }
 };

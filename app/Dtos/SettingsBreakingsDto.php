@@ -4,7 +4,7 @@ namespace App\Dtos;
 
 use Illuminate\Database\Eloquent\Collection;
 
-class SettingsIntervalsDto
+class SettingsBreakingsDto
 {
     public function __construct(
         public string $startTime,

@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreScheduleRequest;
+use App\Http\Requests\StoreScheduleGeneratorRequest;
 use App\Services\ScheduleGeneratorService;
 use Illuminate\Http\JsonResponse;
 
 class ScheduleGeneratorController
 {
-    public function generate(StoreScheduleRequest $request): JsonResponse
+    public function generate(StoreScheduleGeneratorRequest $request): JsonResponse
     {
-        $service = new ScheduleGeneratorService($request);
+        $service = new ScheduleGeneratorService($request->all());
         $service->handle();
 
         return response()->json([

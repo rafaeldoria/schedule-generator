@@ -20,7 +20,7 @@ class EmployeeSettingsRepository
             ->first();
     }
 
-    public function create(array $data)
+    public function create(array $data): EmployeeSettings
     {
         return EmployeeSettings::query()->updateOrCreate([
             'employee_id' => $data['employee_id'],

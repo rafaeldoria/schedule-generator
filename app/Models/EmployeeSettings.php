@@ -18,7 +18,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property int $employee_id
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property SettingsInterval $intervals
+ * @property SettingsBreaking $breakings
  * @method static where(string $string, $employee_id)
  */
 class EmployeeSettings extends Model
@@ -29,6 +29,7 @@ class EmployeeSettings extends Model
         'duration',
         'start_time',
         'end_time',
+        'interval',
         'saturday_off',
         'close_days',
         'employee_id',
@@ -39,9 +40,9 @@ class EmployeeSettings extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function intervals(): HasMany
+    public function breakings(): HasMany
     {
-        return $this->hasMany(SettingsInterval::class);
+        return $this->hasMany(SettingsBreaking::class);
     }
 
     protected static function boot(): void

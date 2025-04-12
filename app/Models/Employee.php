@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -14,6 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property EmployeeSettings $settings
+ * @property Schedule $schedules
  */
 class Employee extends Model
 {
@@ -29,5 +31,10 @@ class Employee extends Model
     public function settings(): HasOne
     {
         return $this->hasOne(EmployeeSettings::class);
+    }
+
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class);
     }
 }

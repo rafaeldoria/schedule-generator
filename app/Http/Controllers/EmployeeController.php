@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Employee;
 use App\Services\EmployeeService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -31,5 +32,10 @@ class EmployeeController extends Controller
     public function update(Request $request, int $id): JsonResponse
     {
         return response()->json(['data' => $this->service->updateEmployee($request->all(), $id)]);
+    }
+
+    public function generateSchedule(Request $request): JsonResponse
+    {
+        return response()->json(['data' => $this->service->generateSchedule($request->toArray())]);
     }
 }

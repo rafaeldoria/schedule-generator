@@ -2,15 +2,15 @@
 
 namespace App\Services;
 
-use App\Dtos\SettingsIntervalsDto;
 use App\Dtos\EmployeeSettingsDto;
-use App\Models\SettingsInterval;
+use App\Helpers\BreakingHelper;
+use App\Models\SettingsBreaking;
 use App\Models\EmployeeSettings;
 use App\Repositories\EmployeeSettingsRepository;
 
 class EmployeeSettingsService
 {
-    private array $intervals = [];
+    private array $breakings = [];
 
     public function __construct(protected EmployeeSettingsRepository $repository)
     {
@@ -26,11 +26,11 @@ class EmployeeSettingsService
 
         $settingsDto = EmployeeSettingsDto::fromArray($settings->toArray());
 
-        $this->setIntervals($settings);
+        $this->setBreakings($settings);
 
         return [
             'settings' => $settingsDto->toResponse($settings['id']),
-            'intervals' => $this->intervals,
+            'breakings' => $this->breakings,
         ];
     }
 
@@ -44,11 +44,11 @@ class EmployeeSettingsService
 
         $settingsDto = EmployeeSettingsDto::fromArray($settings->toArray());
 
-        $this->setIntervals($settings);
+        $this->setBreakings($settings);
 
         return [
             'settings' => $settingsDto->toArray(),
-            'intervals' => $this->intervals,
+            'breakings' => $this->breakings,
         ];
     }
 
@@ -57,33 +57,24 @@ class EmployeeSettingsService
         $settingsDto = EmployeeSettingsDto::fromArray($data);
         $settings = $this->repository->create($settingsDto->toArray());
 
+        if (!empty($data['breakings'])) {
+            foreach ($data['breakings'] as $breaking) {
+                $breaking['employee_settings_id'] = $settings->id;
 
-        if (!empty($data['intervals'])) {
-//            $intervals =
-            foreach ($data['intervals'] as $interval) {
-                $interval['employee_settings_id'] = $settings->id;
-
-                $this->intervals[] = SettingsInterval::query()->updateOrCreate([
-                    'id' => $interval['id'] ?? null,
-                ], $interval);
+                $this->breakings[] = SettingsBreaking::query()->updateOrCreate([
+                    'id' => $breaking['id'] ?? null,
+                ], $breaking);
             }
         }
 
         return [
             'settings' => $settings,
-            'intervals' => $this->intervals,
+            'breakings' => $this->breakings,
         ];
     }
 
-    public function setIntervals(EmployeeSettings $settings): void
+    public function setBreakings(EmployeeSettings $settings): void
     {
-        $intervalsSettings = $settings->intervals;
-
-        if (!empty($intervalsSettings)) {
-            foreach ($intervalsSettings as $intervalSetting) {
-                $intervalsDto = SettingsIntervalsDto::fromArray($intervalSetting->toArray());
-                $this->intervals[] = $intervalsDto->toResponse($intervalSetting['id']) ?? [];
-            }
-        }
+        $this->breakings = BreakingHelper::getBreakings($settings);
     }
 }

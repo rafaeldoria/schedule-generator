@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('settings_intervals', function (Blueprint $table) {
+        Schema::create('settings_breakings', function (Blueprint $table) {
             $table->id();
             $table->string('start_time');
             $table->string('end_time');
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('settings_intervals');
+        Schema::dropIfExists('settings_breakings');
     }
 };

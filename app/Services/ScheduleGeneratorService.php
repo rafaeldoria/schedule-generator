@@ -6,7 +6,6 @@ use AllowDynamicProperties;
 use App\Enums\DayOfWeekEnum;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
-use Illuminate\Http\Request;
 
 /**
  * @property array $input
@@ -26,11 +25,11 @@ use Illuminate\Http\Request;
 
 #[AllowDynamicProperties] class ScheduleGeneratorService
 {
-    public function __construct(Request $request)
+    public function __construct(array $request)
     {
         $this->breaks = false;
         $this->time = [];
-        $this->input = $request->all();
+        $this->input = $request;
         $this->prepareDates();
     }
 
@@ -59,12 +58,12 @@ use Illuminate\Http\Request;
             $this->total ++;
 
             if ($this->breaks && $this->totalBreaks > 0) {
-                foreach ($this->input['break'] as $break) {
-                    $startBrake = Carbon::createFromTimeString($break['startTime']);
-                    $endBrake = Carbon::createFromTimeString($break['endTime']);
+                foreach ($this->input['breaks'] as $break) {
+                    $startBreake = $this->day->copy()->setTimeFromTimeString($break['start_time']);
+                    $endBreake =$this->day->copy()->setTimeFromTimeString($break['end_time']);
 
-                    if ($this->startTime->gte($startBrake) && $this->startTime->lt($endBrake)) {
-                        $minutesDiff = $startBrake->diffInMinutes($endBrake);
+                    if ($this->startTime->gte($startBreake) && $this->startTime->lt($endBreake)) {
+                        $minutesDiff = $startBreake->diffInMinutes($endBreake);
                         $this->startTime->addMinutes($minutesDiff);
                         $this->totalBreaks --;
                         break;
@@ -90,7 +89,6 @@ use Illuminate\Http\Request;
 
     private function generateWeek(): void
     {
-        $count = 1;
         while ($this->day->lte($this->lastDayWeek)) {
             if ($this->day->gte($this->lastDayOfMonth) && $this->input['recurrence'] >= 3) {
                 $this->day->addDay();
@@ -123,14 +121,14 @@ use Illuminate\Http\Request;
 
     private function prepareDates(): void
     {
-        if (isset($this->input['break'])) {
+        if (isset($this->input['breaks'])) {
             $this->breaks = true;
         }
 
         $this->firstDay = Carbon::now();
         $this->setDayOne();
 
-        $this->endWeek = isset($this->input['saturdayOff']) && $this->input['saturdayOff']
+        $this->endWeek = isset($this->input['saturday_off']) && $this->input['saturday_off']
             ? DayOfWeekEnum::SATURDAY->value
             : DayOfWeekEnum::FRIDAY->value;
 
@@ -145,8 +143,8 @@ use Illuminate\Http\Request;
 
     private function resetDailyTimes(): void
     {
-        $this->startTime = Carbon::parse($this->day->toDateString() . ' ' . $this->input['startTime']);
-        $this->endTime = Carbon::parse($this->day->toDateString() . ' ' . $this->input['endTime']);
+        $this->startTime = Carbon::parse($this->day->toDateString() . ' ' . $this->input['start_time']);
+        $this->endTime = Carbon::parse($this->day->toDateString() . ' ' . $this->input['end_time']);
 
         if ($this->firstDay->gt($this->startTime)) {
             $this->startTime = $this->firstDay;
@@ -161,7 +159,7 @@ use Illuminate\Http\Request;
     private function setTotalBreaks():void
     {
         if ($this->breaks) {
-            $this->totalBreaks = count($this->input['break']);
+            $this->totalBreaks = count($this->input['breaks']);
         }
     }
 
