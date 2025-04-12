@@ -4,12 +4,9 @@ namespace App\Providers;
 
 use App\Events\ScheduleGenerateEvent;
 use App\Events\ScheduleStoreEvent;
-use App\Events\TesteEvent;
 use App\Listeners\ScheduleGenerateProcessListener;
 use App\Listeners\ScheduleStoreProcessListener;
 use Carbon\Laravel\ServiceProvider;
-use Illuminate\Support\Facades\Event;
-use Mockery\Adapter\Phpunit\TestListener;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -24,10 +21,5 @@ class EventServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-    }
-
-    public function shouldDiscoverEvents(): bool
-    {
-        return false;
     }
 }
