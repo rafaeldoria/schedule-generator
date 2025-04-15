@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\ScheduleController;
 use App\Http\Controllers\ScheduleGeneratorController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\SettingsBreakingController;
@@ -22,6 +23,7 @@ Route::group([
         Route::get('/settings/employee/{employee_id}', [SettingsController::class, 'getByEmployeeId']);
         Route::post('/settings', [SettingsController::class, 'create']);
         Route::delete('/breaking/{breaking}', [SettingsBreakingController::class, 'delete']);
+        Route::get('/schedule/employee/{employeeId}', [ScheduleController::class, 'getByEmployeeId']);
         Route::post('/logout', [AuthController::class, 'logout']);
     }
 );
