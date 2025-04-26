@@ -5,6 +5,7 @@ namespace App\Models;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
  * @property Employee $employee
- * @property Customer $customer
+ * @property ScheduleDetails $scheduleDetails
  */
 
 class Schedule extends Model
@@ -32,8 +33,8 @@ class Schedule extends Model
         return $this->belongsTo(Employee::class);
     }
 
-    public function customer(): BelongsTo
+    public function scheduleDetails(): HasMany
     {
-        return $this->belongsTo(Customer::class);
+        return $this->hasMany(ScheduleDetails::class);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Services;
 
 use AllowDynamicProperties;
 use App\Enums\DayOfWeekEnum;
+use App\Enums\StatusScheduleDetailsEnum;
 use Carbon\Carbon;
 use Carbon\CarbonInterface;
 
@@ -73,7 +74,7 @@ use Carbon\CarbonInterface;
 
             $this->time[] = [
                 'time' => $this->startTime->format('H:i:s'),
-                'status' => 1,
+                'status' => StatusScheduleDetailsEnum::OPEN->value,
             ];
 
             $this->startTime->addMinutes($this->input['duration'] + $this->input['interval']);

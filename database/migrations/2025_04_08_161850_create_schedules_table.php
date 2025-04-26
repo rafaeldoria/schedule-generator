@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->json('generated_schedule');
             $table->tinyInteger('status')->default(0)->comment('0 => OPEN, 1 => CLOSED');
-            $table->unsignedBigInteger('employee_id')->unique();
+            $table->unsignedBigInteger('employee_id');
             $table->foreign('employee_id')->references('id')->on('employees');
             $table->timestamps();
             $table->softDeletes();

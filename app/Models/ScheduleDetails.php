@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -15,7 +15,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
  * @property string|null $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at
- * @property Employee $employee
+ * @property Schedule $schedule
  * @property Customer $customer
  */
 class ScheduleDetails extends Model
@@ -23,16 +23,16 @@ class ScheduleDetails extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'start_time',
-        'end_time',
+        'date',
+        'time',
         'status',
-        'employee_id',
+        'schedule_id',
         'customer_id',
     ];
 
-    public function employee(): HasMany
+    public function schedule(): BelongsTo
     {
-        return $this->hasMany(Schedule::class);
+        return $this->belongsTo(Schedule::class);
     }
 
     public function customer(): HasOne

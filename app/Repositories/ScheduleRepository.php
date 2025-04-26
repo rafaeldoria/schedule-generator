@@ -3,7 +3,6 @@
 namespace App\Repositories;
 
 use App\Models\Schedule;
-use Illuminate\Database\Eloquent\Collection;
 
 class ScheduleRepository
 {
@@ -26,5 +25,11 @@ class ScheduleRepository
         Schedule::query()
             ->where('id', $id)
             ->delete();
+    }
+
+    public function getById(int $id): ?Schedule
+    {
+        return Schedule::query()
+            ->findOrFail($id);
     }
 }
