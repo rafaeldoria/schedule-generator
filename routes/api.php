@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\DocumentationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\ScheduleController;
@@ -25,6 +26,9 @@ Route::group([
         Route::post('/settings', [SettingsController::class, 'create']);
         Route::delete('/breaking/{breaking}', [SettingsBreakingController::class, 'delete']);
         Route::get('/schedule/employee/{employeeId}', [ScheduleController::class, 'getByEmployeeId']);
+        Route::get('/schedule/{id}', [ScheduleController::class, 'getById']);
+        Route::get('/schedule-details/{scheduleDetailsId}', [ScheduleDetailsController::class, 'getById']);
+        Route::get('/customer/{customerId}', [CustomerController::class, 'getById']);
         Route::post('/schedule-details', [ScheduleDetailsController::class, 'store']);
         Route::post('/logout', [AuthController::class, 'logout']);
     }

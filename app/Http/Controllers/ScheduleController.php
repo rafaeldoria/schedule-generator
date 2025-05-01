@@ -11,6 +11,11 @@ class ScheduleController
     {
     }
 
+    public function getById(int $id): JsonResponse
+    {
+        return response()->json(['data' => $this->service->getById($id)]);
+    }
+
     public function getByEmployeeId(int $employeeId): JsonResponse
     {
         return response()->json(['data' => $this->service->getByEmployee($employeeId)]);

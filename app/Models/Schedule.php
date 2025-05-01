@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 /**
  * @property int $id
  * @property string $generated_schedule
+ * @property string $employee_id
  * @property string|null $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

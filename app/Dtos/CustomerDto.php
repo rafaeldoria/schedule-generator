@@ -19,4 +19,14 @@ class CustomerDto
             'cellphone' => $this->cellphone,
         ];
     }
+
+    public function toResponse(int $id): array
+    {
+        return [
+            'full_name' => $this->fullName,
+            'email' => $this->email,
+            'cellphone' => $this->cellphone,
+            'id' => $id,
+        ];
+    }
 }

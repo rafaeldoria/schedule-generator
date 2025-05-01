@@ -21,4 +21,14 @@ class ScheduleDto
             'status' => $this->status,
         ];
     }
+
+    public function toResponse(int $id): array
+    {
+        return [
+            'generated_schedule' => json_decode($this->generatedSchedule, true),
+            'employee_id' => $this->employeeId,
+            'status' => $this->status,
+            'id' => $id,
+        ];
+    }
 }

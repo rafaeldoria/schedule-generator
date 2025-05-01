@@ -14,4 +14,10 @@ class ScheduleDetailsController
         $service = new ScheduleDetailsService(new ScheduleDetailsRepository(), $request->all());
         return response()->json([$service->store()]);
     }
+
+    public function getById(int $id): JsonResponse
+    {
+        $service = new ScheduleDetailsService(new ScheduleDetailsRepository(), []);
+        return response()->json(['data' => $service->getById($id)]);
+    }
 }

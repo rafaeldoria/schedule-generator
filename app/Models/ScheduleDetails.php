@@ -10,8 +10,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * @property int $id
- * @property string $start_time
- * @property string|null $end_time
+ * @property string $date
+ * @property string|null $time
+ * @property string|null $schedule_id
+ * @property string|null $customer_id
  * @property string|null $status
  * @property Carbon|null $created_at
  * @property Carbon|null $updated_at

@@ -3,9 +3,9 @@
 namespace App\Services;
 
 use App\Dtos\ScheduleDto;
+use App\Helpers\ScheduleHelper;
 use App\Models\Schedule;
 use App\Repositories\ScheduleRepository;
-use Carbon\Carbon;
 
 class ScheduleService
 {
@@ -13,9 +13,20 @@ class ScheduleService
     {
     }
 
-    public function store(array $times, int $id): Schedule
+    public function getByid(int $employeeId): array
     {
-        $scheduleDto = new ScheduleDto(json_encode($times),$id);
+        $schedule = $this->repository->getById($employeeId);
+
+        if (is_null($schedule)) {
+            return [];
+        }
+
+        return $this->returnSchedule($schedule);
+    }
+
+    public function store(array $times, int $employeeId): Schedule
+    {
+        $scheduleDto = new ScheduleDto(json_encode($times), $employeeId);
 
         return $this->repository->store($scheduleDto->toArray());
     }
@@ -28,19 +39,23 @@ class ScheduleService
             return [];
         }
 
-        if ($this->validateLastDateSchedule($schedule->generated_schedule)) {
+        return $this->returnSchedule($schedule);
+    }
+
+    private function returnSchedule(Schedule $schedule): array
+    {
+        if (ScheduleHelper::validateLastDateSchedule($schedule->generated_schedule)) {
             $this->repository->delete($schedule->id);
 
             return [];
         }
 
-        return $schedule->toArray();
-    }
+        $scheduleDto = new ScheduleDto(
+            $schedule->generated_schedule,
+            $schedule->employee_id,
+            $schedule->status
+        );
 
-    private function validateLastDateSchedule(string $generated_schedule): bool
-    {
-        $lastDateSchedule = Carbon::parse(array_key_last(json_decode($generated_schedule, true)));
-
-        return $lastDateSchedule->lt(Carbon::today());
+        return $scheduleDto->toResponse($schedule->id);
     }
 }

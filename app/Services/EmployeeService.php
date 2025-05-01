@@ -4,11 +4,14 @@ namespace App\Services;
 
 use App\Dtos\EmployeeDto;
 use App\Dtos\EmployeeSettingsDto;
+use App\Dtos\ScheduleDto;
 use App\Events\ScheduleGenerateEvent;
 use App\Events\ScheduleStoreEvent;
 use App\Helpers\BreakingHelper;
 use App\Models\Employee;
+use App\Models\Schedule;
 use App\Repositories\EmployeeRepository;
+use App\Repositories\ScheduleRepository;
 use Illuminate\Support\Facades\Event;
 
 class EmployeeService
@@ -80,6 +83,12 @@ class EmployeeService
 
     public function generateSchedule(array $data): array
     {
+        $schedule = $this->getSchedule($data['employee_id']);
+
+        if (!empty($schedule)) {
+            return $this->transformScheduleResponse($schedule);
+        }
+
         $employee = $this->repository->findById($data['employee_id']);
         $settings = $employee->settings;
 
@@ -101,6 +110,21 @@ class EmployeeService
             return [];
         }
 
-        return Event::dispatch(new ScheduleStoreEvent($times, $employee->id));
+        $schedule = Event::dispatch(new ScheduleStoreEvent($times, $employee->id));
+
+        return $this->transformScheduleResponse($schedule[0]);
+    }
+
+    private function transformScheduleResponse(Schedule $schedule): array
+    {
+        $scheduleDto = new ScheduleDto($schedule->generated_schedule, $schedule->employee_id);
+
+        return $scheduleDto->toResponse($schedule->id);
+    }
+
+    private function getSchedule(int $employeeId): ?Schedule
+    {
+        $scheduleRepository = new ScheduleRepository();
+        return $scheduleRepository->getByEmployeeId($employeeId);
     }
 }

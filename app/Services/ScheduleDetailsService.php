@@ -24,6 +24,25 @@ class ScheduleDetailsService
     ) {
     }
 
+    public function getById(int $id): array
+    {
+        $schedulteDetails = $this->scheduleDetailsRepository->getById($id);
+
+        if (empty($schedulteDetails)) {
+            return [];
+        }
+
+        $schedulteDetailsDto = new ScheduleDetailsDto(
+            $schedulteDetails->date,
+            $schedulteDetails->time,
+            $schedulteDetails->schedule_id,
+            $schedulteDetails->customer_id,
+            $schedulteDetails->status,
+        );
+
+        return $schedulteDetailsDto->toResponse($schedulteDetails->id);
+    }
+
     public function store(): array
     {
         $this->setSchedule();

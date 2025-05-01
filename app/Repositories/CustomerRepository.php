@@ -10,4 +10,11 @@ class CustomerRepository
     {
         return Customer::query()->create($data);
     }
+
+    public function getById(int $id): ?Customer
+    {
+        return Customer::query()
+            ->where('id', $id)
+            ->first();
+    }
 }

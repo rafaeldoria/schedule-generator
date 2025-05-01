@@ -3,12 +3,17 @@
 namespace App\Repositories;
 
 use App\Models\Schedule;
+use Throwable;
 
 class ScheduleRepository
 {
     public function store(array $data): Schedule
     {
-        return Schedule::query()->create($data);
+        try {
+            return Schedule::query()->create($data);
+        } catch (Throwable $ex) {
+            dd($ex->getMessage());
+        }
     }
 
     public function getByEmployeeId(int $employeeId): ?Schedule
@@ -30,6 +35,7 @@ class ScheduleRepository
     public function getById(int $id): ?Schedule
     {
         return Schedule::query()
-            ->findOrFail($id);
+            ->where('id', $id)
+            ->first();
     }
 }

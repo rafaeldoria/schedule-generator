@@ -19,4 +19,11 @@ class ScheduleDetailsRepository
 
         return $schedule;
     }
+
+    public function getById(int $id): ?ScheduleDetails
+    {
+        return ScheduleDetails::query()
+            ->where('id', $id)
+            ->first();
+    }
 }
